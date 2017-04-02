@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
         mb++;
         printf("Allocated %d MB\n", mb);
     }
-    
+
     return 0;
 }
 </pre>
@@ -66,7 +66,7 @@ Swap:            0          0          0
 $
 </pre>
 
-Even though it said 14MB "free", that didn't stop the application from grabbing 879MB. Afterwards, the cache is pretty empty<sup><a href="#footnote2">2</a></sup>, but it will gradually fill up again as files are read and written. Give it a try. 
+Even though it said 14MB "free", that didn't stop the application from grabbing 879MB. Afterwards, the cache is pretty empty<sup><a href="#footnote2">2</a></sup>, but it will gradually fill up again as files are read and written. Give it a try.
 
 <h2>Effects of disk cache on swapping</h2>
 
@@ -118,7 +118,7 @@ Swap:         2047          6       2041
 
 </pre>
 
-		Notice how "buffers" and "cached" went down, free mem went up, and free+buffers/cache stayed the same. 
+		Notice how "buffers" and "cached" went down, free mem went up, and free+buffers/cache stayed the same.
 		</body>
 
 		<h2>Effects of disk cache on load times</h2>
@@ -131,7 +131,7 @@ $ <b>cat hello.py</b>
 print "Hello World! Love, Python"
 
 $ <b>cat Hello.java</b>
-class Hello { 
+class Hello {
     public static void main(String[] args) throws Exception {
         System.out.println("Hello World! Regards, Java");
     }
@@ -145,7 +145,7 @@ Hello World! Love, Python
 $ <b>java Hello</b>
 Hello World! Regards, Java
 
-$ 
+$
 </pre>
 
 		Our hello world apps work. Now let's drop the disk cache, and see how long it takes to run them.
@@ -168,7 +168,7 @@ real	0m2.174s
 user	0m0.100s
 sys	    0m0.056s
 
-$ 
+$
 </pre>
 
 Wow. 1 second for Python, and 2 seconds for Java? That's a lot just to say hello. However, now all the file required to run them will be in the disk cache so they can be fetched straight from memory. Let's try again:
@@ -189,7 +189,7 @@ real    0m0.139s
 user    0m0.060s
 sys     0m0.028s
 
-$ 
+$
 </pre>
 
 Yay! Python now runs in just 22 milliseconds, while java uses 139ms. That's 45 and 15 times faster! All your apps get this boost automatically!
@@ -222,7 +222,7 @@ Mem:          1504        753        750          0          0        285
 -/+ buffers/cache:        468       1036
 Swap:         2047          6       2041
 
-$ 
+$
 
 </pre>
 
@@ -244,19 +244,19 @@ real    0m8.688s
 user    0m0.020s
 sys     0m0.336s
 
-$ 
+$
 </pre>
 
-That's more than fifty times faster! 
+That's more than fifty times faster!
 
 <h2>Conclusions</h2>
 
-The Linux disk cache is very unobtrusive. It uses spare memory to greatly increase disk access speeds, and without taking any memory away from applications. A fully used store of ram on Linux is efficient hardware use, not a warning sign. 
+The Linux disk cache is very unobtrusive. It uses spare memory to greatly increase disk access speeds, and without taking any memory away from applications. A fully used store of ram on Linux is efficient hardware use, not a warning sign.
 
 <h6> LinuxAteMyRam.com was presented by <a href="http://www.vidarholen.net">VidarHolen.net</a> </h6>
 
 <hr />
-These pages do simplify a little: 
+These pages do simplify a little:
 <ol>
     <li>
 <p><a name="footnote1" />While newly allocated memory will always (though see point #2) be taken from the disk cache instead of swap, Linux can be configured to preemptively swap out other unused applications in the background to free up memory for cache.  The is tunable through the 'swappiness' setting, accessible through /proc/sys/vm/swappiness.</p>
@@ -264,7 +264,7 @@ These pages do simplify a little:
     A server might want to swap out unused apps to speed up disk access of running ones (making the system faster), while a desktop system might want to keep apps in memory to prevent lag when the user finally uses them (making the system more responsive). This is the subject of much debate.</p>
     </li>
     <li>
-    <p><a name="footnote2" />Some parts of the cache can't be dropped, not even to accomodate new applications. This includes mmap'd pages that have been mlocked by some application, dirty pages that have not yet been written to storage, and data stored in tmpfs (such as in /dev/shm). The mmap'd, mlocked pages are stuck in the page cache. Dirty pages will for the most part swiftly be written out. Data in tmpfs will be swapped out if possible. 
+    <p><a name="footnote2" />Some parts of the cache can't be dropped, not even to accomodate new applications. This includes mmap'd pages that have been mlocked by some application, dirty pages that have not yet been written to storage, and data stored in tmpfs (including /dev/shm, used for shared memory). The mmap'd, mlocked pages are stuck in the page cache. Dirty pages will for the most part swiftly be written out. Data in tmpfs will be swapped out if possible.
     </p>
     </li>
 </ol>

@@ -4,20 +4,20 @@
 		<script lang="javascript">
 			var on=0;
 			var flashings=11;
-			function flash() { 
+			function flash() {
 				var item = document.getElementById("blinkyblink");
 				if(item != null) {
 					on = !on;
 					if(on) item.style.border = "3px solid #D0D0D0";
 					else item.style.border = "3px solid #000000";
 				}
-				if(flashings-- > 0)  
+				if(flashings-- > 0)
 					setTimeout('flash()', 400);
 			}
 			flash();
 		</script>
 		<style type="text/css">
-			h2 { 
+			h2 {
 				font-size: 32px;
 				margin-top: 50px;
 			}
@@ -31,7 +31,7 @@
 	</head>
 	<body bgcolor="white" text="black">
 		<center>
-			<img src="atemyram.png" alt="Linux ate my ram!!" />
+			<img src="atemyram.png" alt="Linux ate my RAM!!" />
 			<br />
 			<table id="blinkyblink" style="border: 3px solid">
 				<tr>
@@ -63,23 +63,25 @@
 
 				<h2>Why does top and free say all my ram is used if it isn't?</h2>
 
-				This is just a differing understanding of terms. Both you and Linux agree that memory taken by applications is "used", while memory that isn't used for anything is "free". 
+				This is just a difference in terminology. Both you and Linux agree that memory taken by applications is "used", while memory that isn't used for anything is "free".
 				<p>
-			 	But how do you count memory that is currently used for something, but still available for applications?
+        But how do you count memory that is currently used for something, but can still be made available to applications?
 				</p>
 				<p>
-        You might consider that memory "free" or at least "available". Linux instead counts it as both "used" and "available", but not "free":
+        You might count that memory as "free" and/or "available". Linux instead counts it as "used", but also "available":
         </p>
 				
 				<table border=1>
+          <tr>
 					<th>Memory that is</th><th width="120">You'd call it</th><th width="120">Linux calls it</th>
+          </tr>
 					<tr>
-						<td bgcolor="#FF8080">taken by applications</td>
+						<td bgcolor="#FF8080">used by applications</td>
 						<td bgcolor="#FF8080">Used</td>
 						<td bgcolor="#FF8080">Used</td>
 					</tr>
 					<tr>
-						<td bgcolor="#FFFF80">available for applications, and used for something</td>
+						<td bgcolor="#FFFF80">used, but can be made available</td>
             <td bgcolor="#80FF80">Free (or Available)</td>
             <td bgcolor="#FF8080">Used (and Available)</td>
 					</tr>
@@ -90,37 +92,29 @@
 					</tr>
 				</table>
 
-				<p>This "something" is what top and free calls "buffers" and "cached". Since your and Linux's terminology differs, you might think you are low on ram when you're not.
+        <p>This "something" is (roughly) what top and free calls "buffers" and "cached". Since your and Linux's terminology differs, you might think you are low on ram when you're not. </p>
 
 				<h2> How do I see how much free ram I really have? </h2>
 
-				To see how much ram is free to use for your applications, run <code>free&nbsp;-m</code> and look at the "available" column:
-        
+				To see how much ram your applications could use without swapping, run <code>free&nbsp;-m</code> and look at the "available" column:
+
 				<div style="text-align: left; width: 900px; ">
 				<pre>
 $ free -m
               total        used        free      shared  buff/cache   available
-Mem:           1504        1491          13           0         855      <span style="border: 1px solid; color: #00FF00; font-weight: bold">869</span>
+Mem:           1504        1491          13           0         855      <span style="border: 1px solid; color: #00FF00; font-weight: bold">792</span>
 Swap:          2047           6        2041
- 
-</pre>
-				</div>
-        
-         If you are using an older distribution that doesn't show an "available" column, look at the "free" column in the row that says "-/+ buffers/cache":
 
-				<div style="text-align: left; width: 900px; ">
-				<pre>
-$ free -m
-             total       used       free     shared    buffers     cached
-Mem:          1504       1491         13          0         91        764
--/+ buffers/cache:        635        <span style="border: 1px solid; color: #00FF00; font-weight: bold">869</span>
-Swap:         2047          6       2041
- 
 </pre>
 				</div>
+
 				<p>
-				This is your answer in megabytes. If you just naively look at "used" and "free", you'll think your RAM is 99% full when it's really just 42%!
+				This is your answer in megabytes. If you just naively look at "used" and "free", you'll think your ram is 99% full when it's really just 47%!
         </p>
+
+
+        <p>For a more detailed and technical description of what Linux counts as "available", see <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773">the commit that added the field</a>.</p>
+
 
 				<h2> When should I start to worry? </h2>
 
