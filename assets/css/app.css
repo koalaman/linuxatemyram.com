@@ -1,0 +1,88 @@
+/*
+    Copyright Vidar Holen, Danny Colin (c) 2017
+
+    This file is part of Linuxatemyram.com.
+
+    Yocto is free software: you can redistribute it and/or modify it under the
+    terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Yocto is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Yocto.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+body {
+    font-family: serif;
+    font-size: 1em;
+}
+
+table {
+    border: solid 1px #000;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    padding: 5px;
+}
+
+th {
+    background-color: #000;
+    border: solid 1px #000;
+    color: #fff;
+}
+
+#blink {
+    color: #FF0000;
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    animation: blink 1s steps(5, start) infinite;
+}
+@keyframes blink {
+    to {
+        visibility: hidden;
+    }
+}
+
+#footer {
+    border: dashed 1px #222;
+    padding: 0 15px;
+}
+
+#header > h1 {
+    font-family: sans-serif;
+    font-size: 3.5em;
+    text-align: center;
+}
+
+#header ul {
+    list-style-type: none;
+}
+
+#header li {
+    display: inline;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 720px;
+}
+
+.green {
+    background-color: #80FF80;
+}
+
+.red {
+    background-color: #FF8080;
+}
+
+.yellow {
+    background-color: #FFFF80;
+}

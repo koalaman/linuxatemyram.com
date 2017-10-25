@@ -1,151 +1,218 @@
-<html>
-	<head>
-		<title>Help! Linux ate my RAM!</title>
-		<script lang="javascript">
-			var on=0;
-			var flashings=11;
-			function flash() {
-				var item = document.getElementById("blinkyblink");
-				if(item != null) {
-					on = !on;
-					if(on) item.style.border = "3px solid #D0D0D0";
-					else item.style.border = "3px solid #000000";
-				}
-				if(flashings-- > 0)
-					setTimeout('flash()', 400);
-			}
-			flash();
-		</script>
-		<style type="text/css">
-			h2 {
-				font-size: 32px;
-				margin-top: 50px;
-			}
-			td {
-				font-size: 20px;
-			}
-			body {
-				font-size: 20px;
-			}
-		</style>
-	</head>
-	<body bgcolor="white" text="black">
-		<center>
-			<img src="atemyram.png" alt="Linux ate my RAM!!" />
-			<br />
-			<table id="blinkyblink" style="border: 3px solid">
-				<tr>
-					<td>
-						<center>
-							<span style="font-size: 64px; font-weight: bold; color: #F00000;">Don't Panic!<br />Your ram is fine!</span>
-						</center>
-					</td>
-				</tr>
-			</table>
+<!--
+    Copyright Vidar Holen, Danny Colin (c) 2017
 
-			<div style="height: 30px"> </div>
-			<div style="width: 780px; text-align: left">
-				<h2> What's going on? </h2>
-				Linux is borrowing unused memory for disk caching. This makes it looks like you are low on memory, but you are not! Everything is fine!
+    This file is part of Linuxatemyram.com.
 
-				<h2> Why is it doing this? </h2>
-				Disk caching makes the system much faster and more responsive! There are no downsides, except for confusing newbies. It does not take memory away from applications in any way, ever!
+    Yocto is free software: you can redistribute it and/or modify it under the
+    terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-				<h2> What if I want to run more applications? </h2>
-				If your applications want more memory, they just take back a chunk that the disk cache borrowed. Disk cache can always be given back to applications immediately! You are not low on ram!
+    Yocto is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-				<h2> Do I need more swap? </h2>
-				No, disk caching only borrows the ram that applications don't currently want. It will not use swap. If applications want more memory, they just take it back from the disk cache. They will not start swapping.
+    You should have received a copy of the GNU General Public License
+    along with Yocto.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="row-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Help! Linux Ate My RAM - LinuxAteMyRAM.com</title>
+        <link rel="stylesheet" href="/assets/css/app.css">
+    </head>
+    <body>
+        <div class="container">
+            <header id="header">
+                <nav>
+                    <ul>
+                        <li><a href="/fr">Français</a></li>
+                        <li><a href="/">English</a></li>
+                    </ul>
+                </nav>
+                <h1>Linux Ate my RAM!</h1>
+                <img src="/assets/img/atemyram.png" alt="Help! Linux Ate my RAM!">
+                <p id="blink">
+                    Don't Panic! Your ram is fine!
+                </p>
+            </header>
+            <main>
+                <h2>What's going on?</h2>
+                <p>
+                    Linux is borrowing unused memory for disk caching. This makes it
+                    looks like you are low on memory, but you are not! Everything is
+                    fine!
+                </p>
 
-				<h2> How do I stop Linux from doing this? </h2>
+                <h2>Why is it doing this?</h2>
+                <p>
+                    Disk caching makes the system much faster and more responsive!
+                    There are no downsides, except for confusing newbies. It does
+                    not take memory away from applications in any way, ever!
+                </p>
 
-				You can't disable disk caching. The only reason anyone ever wants to disable disk caching is because they think it takes memory away from their applications, which it doesn't! Disk cache makes applications load faster and run smoother, but it NEVER EVER takes memory away from them! Therefore, there's absolutely no reason to disable it!
+                <h2>What if I want to run more applications?</h2>
+                <p>
+                   If your applications want more memory, they just take back a
+                   chunk that the disk cache borrowed. Disk cache can always be
+                   given back to applications immediately! You are not low on ram!
+                </p>
 
-				<h2>Why does top and free say all my ram is used if it isn't?</h2>
+                <h2>Do I need more swap?</h2>
+                <p>
+                    No, disk caching only borrows the ram that applications don't
+                    currently want. It will not use swap. If applications want more
+                    memory, they just take it back from the disk cache. They will
+                    not start swapping.
+                </p>
 
-				This is just a difference in terminology. Both you and Linux agree that memory taken by applications is "used", while memory that isn't used for anything is "free".
-				<p>
-        But how do you count memory that is currently used for something, but can still be made available to applications?
-				</p>
-				<p>
-        You might count that memory as "free" and/or "available". Linux instead counts it as "used", but also "available":
-        </p>
-				
-				<table border=1>
-          <tr>
-					<th>Memory that is</th><th width="120">You'd call it</th><th width="120">Linux calls it</th>
-          </tr>
-					<tr>
-						<td bgcolor="#FF8080">used by applications</td>
-						<td bgcolor="#FF8080">Used</td>
-						<td bgcolor="#FF8080">Used</td>
-					</tr>
-					<tr>
-						<td bgcolor="#FFFF80">used, but can be made available</td>
-            <td bgcolor="#80FF80">Free (or Available)</td>
-            <td bgcolor="#FF8080">Used (and Available)</td>
-					</tr>
-					<tr>
-						<td bgcolor="#80FF80">not used for anything</td>
-						<td bgcolor="#80FF80">Free</td>
-						<td bgcolor="#80FF80">Free</td>
-					</tr>
-				</table>
+                <h2>How do I stop Linux from doing this?</h2>
+                <p>
+                   You can't disable disk caching. The only reason anyone ever
+                   wants to disable disk caching is because they think it takes
+                   memory away from their applications, which it doesn't! Disk
+                   cache makes applications load faster and run smoother, but it
+                   <strong>NEVER EVER</strong> takes memory away from them!
+                   Therefore, there's absolutely no reason to disable it!
+                </p>
 
-        <p>This "something" is (roughly) what top and free calls "buffers" and "cached". Since your and Linux's terminology differs, you might think you are low on ram when you're not. </p>
+                <h2>Why does top and free say all my ram is used if it isn't?</h2>
+                <p>
+                    This is just a difference in terminology. Both you and Linux
+                    agree that memory taken by applications is "used", while memory
+                    that isn't used for anything is "free".
+                </p>
+                <p>
+                    But how do you count memory that is currently used for
+                    something, but can still be made available to applications?
+                <p>
+                </p>
+                    You might count that memory as "free" and/or "available". Linux
+                    instead counts it as "used", but also "available":
+                </p>
 
-				<h2> How do I see how much free ram I really have? </h2>
+                <table border="1">
+                    <tr>
+                        <th>Memory that is</th>
+                        <th>You'd call it</th>
+                        <th>Linux calls it</th>
+                    </tr>
+                    <tr>
+                        <td class="red">used by applications</td>
+                        <td class="red">Used</td>
+                        <td class="red">Used</td>
+                    </tr>
+                    <tr>
+                        <td class="yellow">used, but can be made available</td>
+                        <td class="green">Free (or Available)</td>
+                        <td class="red">Used (and Available)</td>
+                    </tr>
+                    <tr>
+                        <td class="green">not used for anything</td>
+                        <td class="green">Free</td>
+                        <td class="green">Free</td>
+                    </tr>
+                </table>
 
-				To see how much ram your applications could use without swapping, run <code>free&nbsp;-m</code> and look at the "available" column:
+                <p>
+                    This "something" is (roughly) what top and free calls
+                    "buffers" and "cached". Since your and Linux's terminology
+                    differs, you might think you are low on ram when you're not.
+                </p>
 
-				<div style="text-align: left; width: 900px; ">
+                <h2>How do I see how much free ram I really have?</h2>
+                <p>
+                    To see how much ram your applications could use without
+                    swapping, run free -m and look at the "available" column:
+                </p>
 				<pre>
 $ free -m
               total        used        free      shared  buff/cache   available
-Mem:           1504        1491          13           0         855      <span style="border: 1px solid; color: #00FF00; font-weight: bold">792</span>
+Mem:           1504        1491          13           0         855   <span class="green">792</span>
 Swap:          2047           6        2041
 
-</pre>
-				</div>
+                </pre>
 
-        <p style="font-size: 75%">
-        (On installations from before 2016, look at "free" column in the "-/+ buffers/cache" row instead.)
-        </p>
+                <p>
+                    <em>Note: On installations from before 2016, look at "free"
+                    column in the "-/+ buffers/cache" row instead.</em>
+                </p>
+                <p>
+                    This is your answer in megabytes. If you just naively look
+                    at "used" and "free", you'll think your ram is 99% full when
+                    it's really just 47%!
+                </p>
+                <p>
+                    For a more detailed and technical description of what Linux
+                    counts as "available", see
+                    <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773">
+                    the commit that added the field.
+                    </a>
+                </p>
 
-				<p>
-				This is your answer in megabytes. If you just naively look at "used" and "free", you'll think your ram is 99% full when it's really just 47%!
-        </p>
+                <h2>When should I start to worry?</h2>
+                <p>
+                    A <strong>healthy Linux system</strong> with more than enough
+                    memory will, after running for a while, show the following
+                    expected and harmless behavior:
+                </p>
+                <ul>
+                    <li>free memory is close to 0</li>
+                    <li>used memory is close to total</li>
+                    <li>
+                        available memory (or "free + buffers/cache") has enough
+                        room (let's say, 20%+ of total)
+                    </li>
+                    <li>swap used does not change</li>
+                </ul>
+                <p>
+                    <strong>Warning signs</strong> of a genuine low memory
+                    situation that you may want to look into:
+                </p>
+                <ul>
+                    <li>
+                        available memory (or "free + buffers/cache") is close to
+                        zero
+                    </li>
+                    <li>swap used increases or fluctuates</li>
+                    <li>
+                        dmesg | grep oom-killer shows the OutOfMemory-killer at
+                        work
+                    </li>
+                </ul>
 
-
-        <p>For a more detailed and technical description of what Linux counts as "available", see <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773">the commit that added the field</a>.</p>
-
-
-				<h2> When should I start to worry? </h2>
-
-        <p>
-        A <strong>healthy Linux system</strong> with more than enough memory will, after running for a while, show the following expected and harmless behavior:
-        <ul>
-          <li><code>free</code> memory is close to <code>0</code> </li>
-          <li><code>used</code> memory is close to <code>total</code> </li>
-          <li><code>available</code> memory (or "free + buffers/cache") has enough room (let's say, 20%+ of total)</li>
-          <li><code>swap used</code> does not change</li>
-        </ul>
-        <p>
-
-        <strong>Warning signs</strong> of a genuine low memory situation that you may want to look into:
-        <ul>
-          <li><code>available</code> memory (or "free + buffers/cache") is close to zero</li>
-          <li><code>swap used</code> increases or fluctuates</li>
-          <li><code>dmesg | grep oom-killer</code> shows the OutOfMemory-killer at work</li>
-        </ul>
-
-				<h2> How can I verify these things? </h2>
-
-				See <a href="play.html">this page</a> for more details and how you can experiment with disk cache to show the effects described here. Few things make you appreciate disk caching more than measuring an order-of-magnitude speedup on your own hardware!
-
-			</div>
-      <h6> LinuxAteMyRam.com was presented by <a href="http://www.vidarholen.net">VidarHolen.net</a>. This site is available <a href="https://github.com/koalaman/linuxatemyram.com">on GitHub</a> for comments and PRs. </h6>
-			</center>
-	</body>
+                <h2>How can I verify these things?</h2>
+                <p>
+                    See
+                    <a href="/play.html">this page</a>
+                    for more details and how you can experiment with disk cache
+                    to show the effects described here. Few things make you
+                    appreciate disk caching more than measuring an
+                    order-of-magnitude speedup on your own hardware!
+                </p>
+            </main>
+            <footer id="footer">
+                <p>
+                    LinuxAteMyRam.com was presented by
+                    <a href="https://www.vidarholen.net/">VidarHolen.net</a>.
+                    This website was coded by
+                    <a href="https://www.vidarholen.net/">Vidar Holen</a>
+                    and
+                    <a href="https://www.dannycolin.com/">Danny Colin</a>.
+                    Except otherwise stated, content on this website is licensed
+                    under the
+                    <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a>
+                    and the source code is licensed under the
+                    <a rel="license" href="https://www.gnu.org/licenses/agpl-3.0.txt">AGPLv3</a>.
+                    You can find the source code on
+                    <a href="https://github.com/koalaman/linuxatemyram.com">GitHub</a>.
+                    Feel free to contribute.
+                </p>
+            </footer>
+        </div>
+    </body>
 </html>
-
