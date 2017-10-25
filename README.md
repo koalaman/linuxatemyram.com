@@ -18,3 +18,14 @@ Issues and pull requests welcome.
 
 ![Mean looking penguin eating a stick of RAM](ramtux.png)
 
+### Contributors
+
+- Vidar Holen
+
+### License
+
+Copyright Vidar Holen, Danny Colin (c) 2017
+
+Except otherwise stated, content on this website is licensed under the
+[CC-BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) and the source
+code is licensed under the [AGPLv3](https://www.gnu.org/licenses/agpl-3.0.txt).
