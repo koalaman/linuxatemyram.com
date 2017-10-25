@@ -18,10 +18,6 @@ Issues and pull requests welcome.
 
 ![Mean looking penguin eating a stick of RAM](ramtux.png)
 
-### Contributors
-
-- Vidar Holen
-
 ### License
 
 Copyright Vidar Holen, Danny Colin (c) 2017
