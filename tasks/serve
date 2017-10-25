@@ -1,0 +1,74 @@
+/*
+    Copyright Vidar Holen, Danny Colin (c) 2017
+
+    This file is part of Linuxatemyram.com.
+
+    Yocto is free software: you can redistribute it and/or modify it under the
+    terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Yocto is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Yocto.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+// Node modules
+const fs    = require('fs');
+const http  = require('http');
+const path  = require('path');
+
+// Server configuration
+const hostname  = '127.0.0.1';
+const port      = '4000';
+
+http.createServer(function (req, res) {
+
+    // Check if index.html
+    var filePath = '.' + req.url;
+    if (filePath == './') {
+        filePath = './index.html';
+    }
+
+    // Set correct content type according to file extension
+    var fileExt = path.extname(filePath);
+    var contentType = 'text/html';
+    switch (fileExt) {
+        case '.js':
+            contentType = 'text/javascript';
+            break;
+        case '.css':
+            contentType = 'text/css';
+            break;
+        case '.png':
+            contentType = 'image/x-png';
+            break;
+    }
+
+    // Serve file and handle errors
+    fs.readFile(filePath, function(err, data) {
+        if (err) {
+            if(err.code == 'ENOENT'){
+                res.writeHead(404);
+                res.end(err.code);
+                res.end();
+            }
+            else {
+                res.writeHead(500);
+                res.end(err.code);
+                res.end();
+            }
+        }
+        else {
+            res.writeHead(200, { 'Content-Type': contentType });
+            res.end(data, 'utf-8');
+        }
+    });
+
+}).listen(port, hostname);
+console.log('Server running at http://'+hostname+':'+port+'/');
+
