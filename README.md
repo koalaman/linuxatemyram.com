@@ -18,3 +18,7 @@ Issues and pull requests welcome.
 
 ![Mean looking penguin eating a stick of RAM](ramtux.png)
 
+### License
+
+To the extent possible under law, the persons who associated CC0 1.0 with this work
+have waived all copyright and related or neighboring rights to this work.

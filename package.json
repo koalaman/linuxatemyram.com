@@ -1,0 +1,27 @@
+{
+    "name": "linuxatemyram.com",
+    "version": "1.0.0",
+    "description": "A little guide to understand how linux handles RAM.",
+    "main": "index.js",
+    "author": [
+    {
+        "name": "Vidar Holen",
+        "email": "",
+        "web": "https://www.vidarholen.net"
+    }
+    ],
+    "contributors": [
+    {
+        "name": "Danny Colin",
+        "email": "contact@dannycolin.com",
+        "web": "https://www.dannycolin.com"
+    }
+    ],
+    "license": "CC0-1.0",
+    "scripts": {
+        "serve": "node tasks/serve"
+    },
+    "dependencies": {
+        "node-sass": "^4.5.3"
+    }
+}
