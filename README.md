@@ -20,8 +20,5 @@ Issues and pull requests welcome.
 
 ### License
 
-Copyright Vidar Holen, Danny Colin (c) 2017
-
-Except otherwise stated, content on this website is licensed under the
-[CC-BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) and the source
-code is licensed under the [AGPLv3](https://www.gnu.org/licenses/agpl-3.0.txt).
+To the extent possible under law, the persons who associated CC0 1.0 with this work
+have waived all copyright and related or neighboring rights to this work.

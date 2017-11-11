@@ -7,7 +7,7 @@
     {
         "name": "Vidar Holen",
         "email": "",
-        "web": ""
+        "web": "https://www.vidarholen.net"
     }
     ],
     "contributors": [
@@ -17,11 +17,11 @@
         "web": "https://www.dannycolin.com"
     }
     ],
-    "license": "AGPL-3.0",
+    "license": "CC0-1.0",
     "scripts": {
         "serve": "node tasks/serve"
     },
     "dependencies": {
-    "node-sass": "^4.5.3"
+        "node-sass": "^4.5.3"
     }
 }
