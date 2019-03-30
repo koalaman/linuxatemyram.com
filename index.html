@@ -1,22 +1,12 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
 		<title>Help! Linux ate my RAM!</title>
-		<script lang="javascript">
-			var on=0;
-			var flashings=11;
-			function flash() {
-				var item = document.getElementById("blinkyblink");
-				if(item != null) {
-					on = !on;
-					if(on) item.style.border = "3px solid #D0D0D0";
-					else item.style.border = "3px solid #000000";
-				}
-				if(flashings-- > 0)
-					setTimeout('flash()', 400);
-			}
-			flash();
-		</script>
-		<style type="text/css">
+		<style>
 			h2 {
 				font-size: 32px;
 				margin-top: 50px;
@@ -29,6 +19,7 @@
 			}
 		</style>
 	</head>
+
 	<body bgcolor="white" text="black">
 		<center>
 			<img src="atemyram.png" alt="Linux ate my RAM!!" />
@@ -71,7 +62,7 @@
         You might count that memory as "free" and/or "available". Linux instead counts it as "used", but also "available":
         </p>
 				
-				<table border=1>
+				<table border="1">
           <tr>
 					<th>Memory that is</th><th width="120">You'd call it</th><th width="120">Linux calls it</th>
           </tr>
@@ -130,7 +121,7 @@ Swap:          2047           6        2041
           <li><code>available</code> memory (or "free + buffers/cache") has enough room (let's say, 20%+ of total)</li>
           <li><code>swap used</code> does not change</li>
         </ul>
-        <p>
+        </p>
 
         <strong>Warning signs</strong> of a genuine low memory situation that you may want to look into:
         <ul>
@@ -146,6 +137,23 @@ Swap:          2047           6        2041
 			</div>
       <h6> LinuxAteMyRam.com was presented by <a href="http://www.vidarholen.net">VidarHolen.net</a>. This site is available <a href="https://github.com/koalaman/linuxatemyram.com">on GitHub</a> for comments and PRs. </h6>
 			</center>
+
+		<script>
+			var on=0;
+			var flashings=11;
+			function flash() {
+				var item = document.getElementById("blinkyblink");
+				if(item !== null) {
+					on = !on;
+					if(on) item.style.border = "3px solid #D0D0D0";
+					else item.style.border = "3px solid #000000";
+				}
+				if(flashings-- > 0)
+					setTimeout(flash, 400);
+			}
+			flash();
+		</script>
 	</body>
+
 </html>
 
