@@ -1,21 +1,6 @@
 <html>
 	<head>
 		<title>Help! Linux ate my RAM!</title>
-		<script lang="javascript">
-			var on=0;
-			var flashings=11;
-			function flash() {
-				var item = document.getElementById("blinkyblink");
-				if(item != null) {
-					on = !on;
-					if(on) item.style.border = "3px solid #D0D0D0";
-					else item.style.border = "3px solid #000000";
-				}
-				if(flashings-- > 0)
-					setTimeout('flash()', 400);
-			}
-			flash();
-		</script>
 		<style type="text/css">
 			h2 {
 				font-size: 32px;
@@ -26,6 +11,18 @@
 			}
 			body {
 				font-size: 20px;
+			}
+
+			#blinkyblink {
+				animation: blinkyblink 0.8s 11;
+				border: 3px solid #D0D0D0;
+			}
+
+			@keyframes blinkyblink {
+				0%    { border: 3px solid #D0D0D0; }
+				49.9% { border: 3px solid #D0D0D0; }
+				50%   { border: 3px solid #000000; }
+				100%  { border: 3px solid #000000; }
 			}
 		</style>
 	</head>
@@ -145,7 +142,7 @@ Swap:          2047           6        2041
 
 			</div>
       <h6> LinuxAteMyRam.com was presented by <a href="http://www.vidarholen.net">VidarHolen.net</a>. This site is available <a href="https://github.com/koalaman/linuxatemyram.com">on GitHub</a> for comments and PRs. </h6>
-			</center>
+		</center>
 	</body>
 </html>
 
