@@ -6,16 +6,27 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<title>Help! Linux ate my RAM!</title>
+
+		<link rel="stylesheet" href="https://rawcdn.githack.com/sindresorhus/github-markdown-css/6616212a2a469d1c1a127d793788dc440c7e3197/github-markdown.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+
 		<style>
-			h2 {
-				font-size: 32px;
-				margin-top: 50px;
+			* {
+				box-sizing: border-box;
 			}
-			td {
-				font-size: 20px;
-			}
+
 			body {
-				font-size: 20px;
+				max-width: 870px;
+				margin: 0 auto;
+				padding: 20px;
+			}
+
+			img {
+				display: block;
+			}
+
+			article.markdown-body {
+				font-size: 1.1em;
 			}
 
 			#blinkyblink {
@@ -32,22 +43,16 @@
 		</style>
 	</head>
 
-	<body bgcolor="white" text="black">
-		<center>
-			<img src="atemyram.png" alt="Linux ate my RAM!!" />
-			<br />
-			<table id="blinkyblink" style="border: 3px solid">
-				<tr>
-					<td>
-						<center>
-							<span style="font-size: 64px; font-weight: bold; color: #F00000;">Don't Panic!<br />Your ram is fine!</span>
-						</center>
-					</td>
-				</tr>
-			</table>
+	<body>
+		<article class="markdown-body">
+			<center>
+				<img src="atemyram.png" alt="Linux ate my RAM!!">
+				<div id="blinkyblink" style="border: 3px solid; display: inline-block; margin: 0 auto; margin-bottom: 64px; margin-top: 16px;">
+					<h1 style="color: #F00000; border-bottom: none; font-size: 3em; margin: 0; padding: 32px;"><strong>Don't Panic!<br>Your ram is fine!</strong></h1>
+				</div>
+			</center>
 
-			<div style="height: 30px"> </div>
-			<div style="width: 780px; text-align: left">
+			<div>
 				<h2> What's going on? </h2>
 				Linux is borrowing unused memory for disk caching. This makes it looks like you are low on memory, but you are not! Everything is fine!
 
@@ -74,25 +79,31 @@
         You might count that memory as "free" and/or "available". Linux instead counts it as "used", but also "available":
         </p>
 				
-				<table border="1">
-          <tr>
-					<th>Memory that is</th><th width="120">You'd call it</th><th width="120">Linux calls it</th>
-          </tr>
-					<tr>
-						<td bgcolor="#FF8080">used by applications</td>
-						<td bgcolor="#FF8080">Used</td>
-						<td bgcolor="#FF8080">Used</td>
-					</tr>
-					<tr>
-						<td bgcolor="#FFFF80">used, but can be made available</td>
-            <td bgcolor="#80FF80">Free (or Available)</td>
-            <td bgcolor="#FF8080">Used (and Available)</td>
-					</tr>
-					<tr>
-						<td bgcolor="#80FF80">not used for anything</td>
-						<td bgcolor="#80FF80">Free</td>
-						<td bgcolor="#80FF80">Free</td>
-					</tr>
+				<table>
+					<thead>
+						<tr>
+						<th>Memory that is</th>
+						<th>You'd call it</th>
+						<th>Linux calls it</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td bgcolor="#FF8080">used by applications</td>
+							<td bgcolor="#FF8080">Used</td>
+							<td bgcolor="#FF8080">Used</td>
+						</tr>
+						<tr>
+							<td bgcolor="#FFFF80">used, but can be made available</td>
+							<td bgcolor="#80FF80">Free (or Available)</td>
+							<td bgcolor="#FF8080">Used (and Available)</td>
+						</tr>
+						<tr>
+							<td bgcolor="#80FF80">not used for anything</td>
+							<td bgcolor="#80FF80">Free</td>
+							<td bgcolor="#80FF80">Free</td>
+						</tr>
+					</tbody>
 				</table>
 
         <p>This "something" is (roughly) what top and free calls "buffers" and "cached". Since your and Linux's terminology differs, you might think you are low on ram when you're not. </p>
@@ -101,19 +112,19 @@
 
 				To see how much ram your applications could use without swapping, run <code>free&nbsp;-m</code> and look at the "available" column:
 
-				<div style="text-align: left; width: 900px; ">
 				<pre>
 $ free -m
               total        used        free      shared  buff/cache   available
-Mem:           1504        1491          13           0         855      <span style="border: 1px solid; color: #00FF00; font-weight: bold">792</span>
+Mem:           1504        1491          13           0         855      <span style="border: 1px solid"><strong>792</strong></span>
 Swap:          2047           6        2041
 
 </pre>
-				</div>
 
-        <p style="font-size: 75%">
+				<p>
+				<small>
         (On installations from before 2016, look at "free" column in the "-/+ buffers/cache" row instead.)
-        </p>
+        </small>
+				</p>
 
 				<p>
 				This is your answer in megabytes. If you just naively look at "used" and "free", you'll think your ram is 99% full when it's really just 47%!
@@ -148,7 +159,7 @@ Swap:          2047           6        2041
 
 			</div>
       <h6> LinuxAteMyRam.com was presented by <a href="http://www.vidarholen.net">VidarHolen.net</a>. This site is available <a href="https://github.com/koalaman/linuxatemyram.com">on GitHub</a> for comments and PRs. </h6>
-    </center>
+		</article>
 	</body>
 
 </html>
