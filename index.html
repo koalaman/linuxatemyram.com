@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+  <html lang="en">
 
   <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>Help! Linux ate my RAM!</title>
 
     <link rel="stylesheet" href="https://rawcdn.githack.com/sindresorhus/github-markdown-css/6616212a2a469d1c1a127d793788dc440c7e3197/github-markdown.css">
@@ -25,13 +25,8 @@
         display: block;
       }
 
-      article.markdown-body {
-        font-size: 1.1em;
-      }
-
       #blinkyblink {
         animation: blinkyblink 0.8s 11;
-        border: 3px solid #D0D0D0;
       }
 
       @keyframes blinkyblink {
@@ -41,50 +36,46 @@
         100%  { border: 3px solid #000000; }
       }
     </style>
+
   </head>
 
   <body>
-    <article class="markdown-body">
+    <article class="markdown-body" style="font-size: 1.1em">
+
       <center>
-        <img src="atemyram.png" alt="Linux ate my RAM!!">
-        <div id="blinkyblink" style="border: 3px solid; display: inline-block; margin: 0 auto; margin-bottom: 64px; margin-top: 16px;">
-          <h1 style="color: #F00000; border-bottom: none; font-size: 3em; margin: 0; padding: 32px;"><strong>Don't Panic!<br>Your ram is fine!</strong></h1>
+        <img src="atemyram.png" alt="Linux ate my RAM!">
+        <div id="blinkyblink" style="border: 3px solid; display: inline-block; margin: 0 auto; margin-bottom: 2em; margin-top: 1em; padding: 2em">
+          <h1 class="border-0" style="color: #F00000; font-size: 3em; margin: 0; padding: 0;">
+            Don't Panic!<br>Your ram is fine!
+          </h1>
         </div>
       </center>
 
-      <div>
-        <h2> What's going on? </h2>
-        Linux is borrowing unused memory for disk caching. This makes it looks like you are low on memory, but you are not! Everything is fine!
+        <h2>What's going on?</h2>
+        <p>Linux is borrowing unused memory for disk caching. This makes it looks like you are low on memory, but you are not! Everything is fine!</p>
 
-        <h2> Why is it doing this? </h2>
-        Disk caching makes the system much faster and more responsive! There are no downsides, except for confusing newbies. It does not take memory away from applications in any way, ever!
+        <h2>Why is it doing this?</h2>
+        <p>Disk caching makes the system much faster and more responsive! There are no downsides, except for confusing newbies. It does not take memory away from applications in any way, ever!</p>
 
-        <h2> What if I want to run more applications? </h2>
-        If your applications want more memory, they just take back a chunk that the disk cache borrowed. Disk cache can always be given back to applications immediately! You are not low on ram!
+        <h2>What if I want to run more applications?</h2>
+        <p>If your applications want more memory, they just take back a chunk that the disk cache borrowed. Disk cache can always be given back to applications immediately! You are not low on ram!</p>
 
-        <h2> Do I need more swap? </h2>
-        No, disk caching only borrows the ram that applications don't currently want. It will not use swap. If applications want more memory, they just take it back from the disk cache. They will not start swapping.
+        <h2>Do I need more swap?</h2>
+        <p>No, disk caching only borrows the ram that applications don't currently want. It will not use swap. If applications want more memory, they just take it back from the disk cache. They will not start swapping.</p>
 
-        <h2> How do I stop Linux from doing this? </h2>
-
-        You can't disable disk caching. The only reason anyone ever wants to disable disk caching is because they think it takes memory away from their applications, which it doesn't! Disk cache makes applications load faster and run smoother, but it NEVER EVER takes memory away from them! Therefore, there's absolutely no reason to disable it!
+        <h2>How do I stop Linux from doing this?</h2>
+        <p>You can't disable disk caching. The only reason anyone ever wants to disable disk caching is because they think it takes memory away from their applications, which it doesn't! Disk cache makes applications load faster and run smoother, but it NEVER EVER takes memory away from them! Therefore, there's absolutely no reason to disable it!</p>
 
         <h2>Why does top and free say all my ram is used if it isn't?</h2>
-
-        This is just a difference in terminology. Both you and Linux agree that memory taken by applications is "used", while memory that isn't used for anything is "free".
-        <p>
-        But how do you count memory that is currently used for something, but can still be made available to applications?
-        </p>
-        <p>
-        You might count that memory as "free" and/or "available". Linux instead counts it as "used", but also "available":
-        </p>
-
+        <p>This is just a difference in terminology. Both you and Linux agree that memory taken by applications is "used", while memory that isn't used for anything is "free".</p>
+        <p>But how do you count memory that is currently used for something, but can still be made available to applications?</p>
+        <p>You might count that memory as "free" and/or "available". Linux instead counts it as "used", but also "available":</p>
         <table>
           <thead>
             <tr>
-            <th>Memory that is</th>
-            <th>You'd call it</th>
-            <th>Linux calls it</th>
+              <th>Memory that is</th>
+              <th>You'd call it</th>
+              <th>Linux calls it</th>
             </tr>
           </thead>
           <tbody>
@@ -105,62 +96,40 @@
             </tr>
           </tbody>
         </table>
+        <p>This "something" is (roughly) what top and free calls "buffers" and "cached". Since your and Linux's terminology differs, you might think you are low on ram when you're not.</p>
 
-        <p>This "something" is (roughly) what top and free calls "buffers" and "cached". Since your and Linux's terminology differs, you might think you are low on ram when you're not. </p>
-
-        <h2> How do I see how much free ram I really have? </h2>
-
-        To see how much ram your applications could use without swapping, run <code>free&nbsp;-m</code> and look at the "available" column:
-
+        <h2>How do I see how much free ram I really have?</h2>
+        <p>To see how much ram your applications could use without swapping, run <code>free -m</code> and look at the "available" column:</p>
         <pre>
-$ free -m
-              total        used        free      shared  buff/cache   available
-Mem:           1504        1491          13           0         855      <span style="border: 1px solid"><strong>792</strong></span>
-Swap:          2047           6        2041
-
-</pre>
-
-        <p>
-        <small>
-        (On installations from before 2016, look at "free" column in the "-/+ buffers/cache" row instead.)
-        </small>
-        </p>
-
-        <p>
-        This is your answer in megabytes. If you just naively look at "used" and "free", you'll think your ram is 99% full when it's really just 47%!
-        </p>
-
-
+  $ free -m
+                total        used        free      shared  buff/cache   available
+  Mem:           1504        1491          13           0         855      <span style="border: 1px solid"><strong>792</strong></span>
+  Swap:          2047           6        2041</pre>
+        <p><small>(On installations from before 2016, look at "free" column in the "-/+ buffers/cache" row instead.)</small></p>
+        <p>This is your answer in megabytes. If you just naively look at "used" and "free", you'll think your ram is 99% full when it's really just 47%!</p>
         <p>For a more detailed and technical description of what Linux counts as "available", see <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773">the commit that added the field</a>.</p>
 
-
-        <h2> When should I start to worry? </h2>
-
-        <p>
-        A <strong>healthy Linux system</strong> with more than enough memory will, after running for a while, show the following expected and harmless behavior:
+        <h2>When should I start to worry?</h2>
+        <p>A <strong>healthy Linux system</strong> with more than enough memory will, after running for a while, show the following expected and harmless behavior:</p>
         <ul>
           <li><code>free</code> memory is close to <code>0</code> </li>
           <li><code>used</code> memory is close to <code>total</code> </li>
           <li><code>available</code> memory (or "free + buffers/cache") has enough room (let's say, 20%+ of total)</li>
           <li><code>swap used</code> does not change</li>
         </ul>
-        </p>
-
-        <strong>Warning signs</strong> of a genuine low memory situation that you may want to look into:
+        <p><strong>Warning signs</strong> of a genuine low memory situation that you may want to look into:</p>
         <ul>
           <li><code>available</code> memory (or "free + buffers/cache") is close to zero</li>
           <li><code>swap used</code> increases or fluctuates</li>
           <li><code>dmesg | grep oom-killer</code> shows the OutOfMemory-killer at work</li>
         </ul>
 
-        <h2> How can I verify these things? </h2>
+        <h2>How can I verify these things?</h2>
+        <p>See <a href="play.html">this page</a> for more details and how you can experiment with disk cache to show the effects described here. Few things make you appreciate disk caching more than measuring an order-of-magnitude speedup on your own hardware!</p>
 
-        See <a href="play.html">this page</a> for more details and how you can experiment with disk cache to show the effects described here. Few things make you appreciate disk caching more than measuring an order-of-magnitude speedup on your own hardware!
+        <small><strong class="text-gray-light">LinuxAteMyRam.com was presented by <a href="http://www.vidarholen.net">VidarHolen.net</a>. This site is available <a href="https://github.com/koalaman/linuxatemyram.com">on GitHub</a> for comments and PRs.</strong></small>
 
-      </div>
-      <h6> LinuxAteMyRam.com was presented by <a href="http://www.vidarholen.net">VidarHolen.net</a>. This site is available <a href="https://github.com/koalaman/linuxatemyram.com">on GitHub</a> for comments and PRs. </h6>
     </article>
   </body>
 
 </html>
-
