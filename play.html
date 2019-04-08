@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<title>Experiments and fun with the Linux disk cache</title>
-	</head>
+    <title>Experiments and fun with the Linux disk cache</title>
+  </head>
 
-	<body bgcolor="white" text="black">
-		<h1>Experiments and fun with the Linux disk cache</h1>
-		Hopefully you are now convinced that Linux didn't just <a href="index.html">eat your ram</a>. Here are some interesting things you can do to learn how the disk cache works.
+  <body bgcolor="white" text="black">
+    <h1>Experiments and fun with the Linux disk cache</h1>
+    Hopefully you are now convinced that Linux didn't just <a href="index.html">eat your ram</a>. Here are some interesting things you can do to learn how the disk cache works.
 
 <h2>Effects of disk cache on application memory allocation</h2>
 
@@ -103,8 +103,8 @@ Swap:         2047          6       2041
 munch ate 400MB of ram, which was taken from the disk cache without resorting to swap. Likewise, we can fill the disk cache again and it will not start eating swap either. If you run <code>watch free -m</code> in one terminal, and <code>find . -type f -exec cat {} + > /dev/null</code> in another, you can see that "cached" will rise while "free" falls. After a while, it tapers off but swap is never touched<sup><a href="#footnote1">1</a></sup>
 
 
-		<h2>Clearing the disk cache</h2>
-		For experimentation, it's very convenient to be able to drop the disk cache. For this, we can use the special file <code>/proc/sys/vm/drop_caches</code>. By writing 3 to it, we can clear most of the disk cache:
+    <h2>Clearing the disk cache</h2>
+    For experimentation, it's very convenient to be able to drop the disk cache. For this, we can use the special file <code>/proc/sys/vm/drop_caches</code>. By writing 3 to it, we can clear most of the disk cache:
 
 <pre>
 $ <b>free -m</b>
@@ -124,11 +124,11 @@ Swap:         2047          6       2041
 
 </pre>
 
-		Notice how "buffers" and "cached" went down, free mem went up, and free+buffers/cache stayed the same.
+    Notice how "buffers" and "cached" went down, free mem went up, and free+buffers/cache stayed the same.
 
-		<h2>Effects of disk cache on load times</h2>
+    <h2>Effects of disk cache on load times</h2>
 
-		Let's make two test programs, one in Python and one in Java. Python and Java both come with pretty big runtimes, which have to be loaded in order to run the application. This is a perfect scenario for disk cache to work its magic.
+    Let's make two test programs, one in Python and one in Java. Python and Java both come with pretty big runtimes, which have to be loaded in order to run the application. This is a perfect scenario for disk cache to work its magic.
 
 
 <pre>
@@ -153,7 +153,7 @@ Hello World! Regards, Java
 $
 </pre>
 
-		Our hello world apps work. Now let's drop the disk cache, and see how long it takes to run them.
+    Our hello world apps work. Now let's drop the disk cache, and see how long it takes to run them.
 
 <pre>
 $ <b>echo 3 | sudo tee /proc/sys/vm/drop_caches</b>
@@ -162,16 +162,16 @@ $ <b>echo 3 | sudo tee /proc/sys/vm/drop_caches</b>
 $ <b>time python hello.py</b>
 Hello World! Love, Python
 
-real	0m1.026s
-user	0m0.020s
-sys	    0m0.020s
+real    0m1.026s
+user    0m0.020s
+sys     0m0.020s
 
 $ <b>time java Hello</b>
 Hello World! Regards, Java
 
-real	0m2.174s
-user	0m0.100s
-sys	    0m0.056s
+real    0m2.174s
+user    0m0.100s
+sys     0m0.056s
 
 $
 </pre>
