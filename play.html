@@ -16,14 +16,13 @@
   <body bgcolor="white" text="black">
     <article class="markdown-body" style="font-size: 1.1em">
 
-    <h1>Experiments and fun with the Linux disk cache</h1>
-    Hopefully you are now convinced that Linux didn't just <a href="index.html">eat your ram</a>. Here are some interesting things you can do to learn how the disk cache works.
+      <h1>Experiments and fun with the Linux disk cache</h1>
+      <p>Hopefully you are now convinced that Linux didn't just <a href="index.html">eat your ram</a>. Here are some interesting things you can do to learn how the disk cache works.</p>
 
-<h2>Effects of disk cache on application memory allocation</h2>
+      <h2>Effects of disk cache on application memory allocation</h2>
 
-Since I've already promised that disk cache doesn't prevent applications from getting the memory they want, let's start with that. Here is a C app (munch.c) that gobbles up as much memory as it can, or to a specified limit:
-
-<pre>
+      <p>Since I've already promised that disk cache doesn't prevent applications from getting the memory they want, let's start with that. Here is a C app (<code>munch.c</code>) that gobbles up as much memory as it can, or to a specified limit:</p>
+      <pre>
 #include &lt;stdlib.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;string.h&gt;
@@ -46,18 +45,19 @@ int main(int argc, char** argv) {
 }
 </pre>
 
-Running out of memory isn't fun, but the OOM killer should end just this process and hopefully the rest will remain undisturbed. We'll definitely want to disable swap for this, or the app will gobble up that as well.
+      <p>Running out of memory isn't fun, but the OOM killer should end just this process and hopefully the rest will remain undisturbed. We'll definitely want to disable swap for this, or the app will gobble up that as well.</p>
 
-<pre>
+      <pre>
 $ <b>sudo swapoff -a</b>
 
 $ <b>free -m</b>
-</pre><i>(note that your <code>free</code> output could be different, and have an 'available' column instead of a '-/+' row) </i><pre>
+</pre>
+      <p><i>(note that your <code>free</code> output could be different, and have an 'available' column instead of a '-/+' row)</i></p>
+      <pre>
              total       used       free     shared    buffers     cached
 Mem:          1504       1490         14          0         24        809
 -/+ buffers/cache:        656        848
 Swap:            0          0          0
-
 
 $ <b>gcc munch.c -o munch</b>
 
@@ -75,17 +75,14 @@ $ <b>free -m</b>
 Mem:          1504        650        854          0          1         67
 -/+ buffers/cache:        581        923
 Swap:            0          0          0
-
-$
 </pre>
 
-Even though it said 14MB "free", that didn't stop the application from grabbing 879MB. Afterwards, the cache is pretty empty<sup><a href="#footnote2">2</a></sup>, but it will gradually fill up again as files are read and written. Give it a try.
+      <p>Even though it said 14MB "free", that didn't stop the application from grabbing 879MB. Afterwards, the cache is pretty empty<sup><a href="#footnote2">2</a></sup>, but it will gradually fill up again as files are read and written. Give it a try. </p>
 
-<h2>Effects of disk cache on swapping</h2>
+      <h2>Effects of disk cache on swapping</h2>
+      <p>I also said that disk cache won't cause applications to use swap. Let's try that as well, with the same <code>munch</code> app as in the last experiment. This time we'll run it with swap on, and limit it to a few hundred megabytes:</p>
 
-I also said that disk cache won't cause applications to use swap. Let's try that as well, with the same 'munch' app as in the last experiment. This time we'll run it with swap on, and limit it to a few hundred megabytes:
-
-<pre>
+      <pre>
 $ <b>free -m</b>
              total       used       free     shared    buffers     cached
 Mem:          1504       1490         14          0         10        874
@@ -104,16 +101,14 @@ $ <b>free -m</b>
 Mem:          1504       1090        414          0          5        485
 -/+ buffers/cache:        598        906
 Swap:         2047          6       2041
-
 </pre>
 
-munch ate 400MB of ram, which was taken from the disk cache without resorting to swap. Likewise, we can fill the disk cache again and it will not start eating swap either. If you run <code>watch free -m</code> in one terminal, and <code>find . -type f -exec cat {} + > /dev/null</code> in another, you can see that "cached" will rise while "free" falls. After a while, it tapers off but swap is never touched<sup><a href="#footnote1">1</a></sup>
+      <p><code>munch</code> ate 400MB of ram, which was taken from the disk cache without resorting to swap. Likewise, we can fill the disk cache again and it will not start eating swap either. If you run <code>watch free -m</code> in one terminal, and <code>find . -type f -exec cat {} + > /dev/null</code> in another, you can see that "cached" will rise while "free" falls. After a while, it tapers off but swap is never touched<sup><a href="#footnote1">1</a></sup>.</p>
 
+      <h2>Clearing the disk cache</h2>
+      <p>For experimentation, it's very convenient to be able to drop the disk cache. For this, we can use the special file <code>/proc/sys/vm/drop_caches</code>. By writing <code>3</code> to it, we can clear most of the disk cache:</p>
 
-    <h2>Clearing the disk cache</h2>
-    For experimentation, it's very convenient to be able to drop the disk cache. For this, we can use the special file <code>/proc/sys/vm/drop_caches</code>. By writing 3 to it, we can clear most of the disk cache:
-
-<pre>
+      <pre>
 $ <b>free -m</b>
              total       used       free     shared    buffers     cached
 Mem:          1504       1471         33          0         36        801
@@ -128,17 +123,13 @@ $ <b>free -m</b>
 Mem:          1504        763        741          0          0        134
 -/+ buffers/cache:        629        875
 Swap:         2047          6       2041
-
 </pre>
+      <p>Notice how "buffers" and "cached" went down, free mem went up, and free+buffers/cache stayed the same.</p>
 
-    Notice how "buffers" and "cached" went down, free mem went up, and free+buffers/cache stayed the same.
+      <h2>Effects of disk cache on load times</h2>
+      <p>Let's make two test programs, one in Python and one in Java. Python and Java both come with pretty big runtimes, which have to be loaded in order to run the application. This is a perfect scenario for disk cache to work its magic.</p>
 
-    <h2>Effects of disk cache on load times</h2>
-
-    Let's make two test programs, one in Python and one in Java. Python and Java both come with pretty big runtimes, which have to be loaded in order to run the application. This is a perfect scenario for disk cache to work its magic.
-
-
-<pre>
+      <pre>
 $ <b>cat hello.py</b>
 print "Hello World! Love, Python"
 
@@ -156,13 +147,11 @@ Hello World! Love, Python
 
 $ <b>java Hello</b>
 Hello World! Regards, Java
-
-$
 </pre>
 
-    Our hello world apps work. Now let's drop the disk cache, and see how long it takes to run them.
+      <p>Our hello world apps work. Now let's drop the disk cache, and see how long it takes to run them.</p>
 
-<pre>
+      <pre>
 $ <b>echo 3 | sudo tee /proc/sys/vm/drop_caches</b>
 3
 
@@ -183,10 +172,9 @@ sys     0m0.056s
 $
 </pre>
 
-Wow. 1 second for Python, and 2 seconds for Java? That's a lot just to say hello. However, now all the file required to run them will be in the disk cache so they can be fetched straight from memory. Let's try again:
+      <p>Wow. 1 second for Python, and 2 seconds for Java? That's a lot just to say hello. However, now all the file required to run them will be in the disk cache so they can be fetched straight from memory. Let's try again:</p>
 
-
-<pre>
+      <pre>
 $ <b>time python hello.py</b>
 Hello World! Love, Python
 
@@ -204,13 +192,12 @@ sys     0m0.028s
 $
 </pre>
 
-Yay! Python now runs in just 22 milliseconds, while java uses 139ms. That's 45 and 15 times faster! All your apps get this boost automatically!
+      <p>Yay! Python now runs in just 22 milliseconds, while java uses 139ms. That's 45 and 15 times faster! All your apps get this boost automatically!</p>
 
-<h2>Effects of disk cache on file reading</h2>
+      <h2>Effects of disk cache on file reading</h2>
+      <p>Let's make a big file and see how disk cache affects how fast we can read it. I'm making a 200MB file, but if you have less free ram, you can adjust it.</p>
 
-Let's make a big file and see how disk cache affects how fast we can read it. I'm making a 200mb file, but if you have less free ram, you can adjust it.
-
-<pre>
+      <pre>
 $ <b>echo 3 | sudo tee /proc/sys/vm/drop_caches</b>
 3
 
@@ -233,14 +220,11 @@ $ <b>free -m</b>
 Mem:          1504        753        750          0          0        285
 -/+ buffers/cache:        468       1036
 Swap:         2047          6       2041
-
-$
-
 </pre>
 
-Since the file was just written, it will go in the disk cache. The 200MB file caused a 200MB bump in "cached". Let's read it, clear the cache, and read it again to see how fast it is:
+      <p>Since the file was just written, it will go in the disk cache. The 200MB file caused a 200MB bump in "cached". Let's read it, clear the cache, and read it again to see how fast it is:</p>
 
-<pre>
+      <pre>
 $ <b>time cat bigfile &gt; /dev/null</b>
 
 real    0m0.139s
@@ -259,27 +243,25 @@ sys     0m0.336s
 $
 </pre>
 
-That's more than fifty times faster!
+      <p>That's more than fifty times faster!</p>
 
-<h2>Conclusions</h2>
+      <h2>Conclusions</h2>
+      <p>The Linux disk cache is very unobtrusive. It uses spare memory to greatly increase disk access speeds, and without taking any memory away from applications. A fully used store of ram on Linux is efficient hardware use, not a warning sign.</p>
 
-The Linux disk cache is very unobtrusive. It uses spare memory to greatly increase disk access speeds, and without taking any memory away from applications. A fully used store of ram on Linux is efficient hardware use, not a warning sign.
+      <small><strong class="text-gray-light">LinuxAteMyRam.com was presented by <a href="http://www.vidarholen.net">VidarHolen.net</a>. This site is available <a href="https://github.com/koalaman/linuxatemyram.com">on GitHub</a> for comments and PRs.</strong></small>
 
-<h6> LinuxAteMyRam.com was presented by <a href="http://www.vidarholen.net">VidarHolen.net</a> </h6>
+      <hr />
 
-<hr />
-These pages do simplify a little:
-<ol>
-    <li>
-<p><a name="footnote1" />While newly allocated memory will always (though see point #2) be taken from the disk cache instead of swap, Linux can be configured to preemptively swap out other unused applications in the background to free up memory for cache.  The is tunable through the 'swappiness' setting, accessible through /proc/sys/vm/swappiness.</p>
-    <p>
-    A server might want to swap out unused apps to speed up disk access of running ones (making the system faster), while a desktop system might want to keep apps in memory to prevent lag when the user finally uses them (making the system more responsive). This is the subject of much debate.</p>
-    </li>
-    <li>
-    <p><a name="footnote2" />Some parts of the cache can't be dropped, not even to accomodate new applications. This includes mmap'd pages that have been mlocked by some application, dirty pages that have not yet been written to storage, and data stored in tmpfs (including /dev/shm, used for shared memory). The mmap'd, mlocked pages are stuck in the page cache. Dirty pages will for the most part swiftly be written out. Data in tmpfs will be swapped out if possible.
-    </p>
-    </li>
-</ol>
+      <p>These pages do simplify a little:</p>
+      <ol>
+        <li id="footnote1">
+          <p>While newly allocated memory will always (though see point #2) be taken from the disk cache instead of swap, Linux can be configured to preemptively swap out other unused applications in the background to free up memory for cache.  The is tunable through the <code>swappiness</code> setting, accessible through <code>/proc/sys/vm/swappiness</code>.</p>
+          <p>A server might want to swap out unused apps to speed up disk access of running ones (making the system faster), while a desktop system might want to keep apps in memory to prevent lag when the user finally uses them (making the system more responsive). This is the subject of much debate.</p>
+        </li>
+        <li id="footnote2">
+          <p>Some parts of the cache can't be dropped, not even to accomodate new applications. This includes <code>mmap</code>'d pages that have been mlocked by some application, dirty pages that have not yet been written to storage, and data stored in <code>tmpfs</code> (including <code>/dev/shm</code>, used for shared memory). The <code>mmap</code>'d, mlocked pages are stuck in the page cache. Dirty pages will for the most part swiftly be written out. Data in <code>tmpfs</code> will be swapped out if possible.</p>
+        </li>
+      </ol>
 
     </article>
   </body>
