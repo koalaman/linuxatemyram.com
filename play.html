@@ -19,6 +19,8 @@
       <h1>Experiments and fun with the Linux disk cache</h1>
       <p>Hopefully you are now convinced that Linux didn't just <a href="index.html">eat your ram</a>. Here are some interesting things you can do to learn how the disk cache works.</p>
 
+      <p><i>Note: The examples shown are for and from 2009 era hardware without SSDs. You may have to multiply several of the example numbers here by 10 to see an appreciable effect.</i></p>
+
       <h2>Effects of disk cache on application memory allocation</h2>
 
       <p>Since I've already promised that disk cache doesn't prevent applications from getting the memory they want, let's start with that. Here is a C app (<code>munch.c</code>) that gobbles up as much memory as it can, or to a specified limit:</p>
