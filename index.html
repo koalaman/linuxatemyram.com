@@ -51,7 +51,7 @@
 
         <h2>How do I stop Linux from doing this?</h2>
         <p>You can't disable disk caching. The only reason anyone ever wants to disable disk caching is because they think it takes memory away from their applications, which it doesn't! Disk cache makes applications load faster and run smoother, but it NEVER EVER takes memory away from them! Therefore, there's absolutely no reason to disable it!</p>
-        <p>If, however, you find yourself needing to clear some RAM quickly to workaround another issue, like a VM misbehaving, you can force linux to nondestructively drop caches using <code>echo 1 | sudo tee /proc/sys/vm/drop_caches</code>.</p>
+        <p>If, however, you find yourself needing to clear some RAM quickly to workaround another issue, like a VM misbehaving, you can force linux to nondestructively <a href="https://linux-mm.org/Drop_Caches">drop caches</a> using <code>echo 3 | sudo tee /proc/sys/vm/drop_caches</code>.</p>
 
         <h2>Why does top and free say all my ram is used if it isn't?</h2>
         <p>This is just a difference in terminology. Both you and Linux agree that memory taken by applications is "used", while memory that isn't used for anything is "free".</p>
