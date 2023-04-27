@@ -44,7 +44,7 @@
         <p>Disk caching makes the system much faster and more responsive! There are no downsides, except for confusing users who are new to computing, and unfamiliar with the concept of a filesystem cache. It does not take memory away from applications in any way, ever!</p>
 
         <h2>What if I want to run more applications?</h2>
-        <p>If your applications want more memory, they just take back a chunk that the disk cache borrowed. Disk cache can always be given back to applications immediately! You are not low on ram!</p>
+        <p>If your applications want more memory, the kernel will just take back a chunk that the disk cache borrowed. Disk cache can always be given back to applications immediately! You are not low on ram!</p>
 
         <h2>Do I need more swap?</h2>
         <p>No, disk caching only borrows the ram that applications don't currently want. It will not use swap. If applications want more memory, they just take it back from the disk cache. They will not start swapping.</p>
