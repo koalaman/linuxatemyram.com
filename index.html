@@ -53,10 +53,10 @@
         <p>You can't completely disable disk caching, (but you can tune Linux's "swapiness"). The only reason anyone ever wants to disable disk caching is because they think it takes memory away from their applications, which it doesn't! Disk cache makes applications load faster and run smoother, but it NEVER EVER takes memory away from them! Therefore, there's absolutely no reason to disable it!</p>
         <p>If, however, you find yourself needing to clear some RAM quickly for some reason, like benchmarking the cold-start of an uncached application, you can force linux to nondestructively <a href="https://linux-mm.org/Drop_Caches">drop caches</a> using <code>echo 3 | sudo tee /proc/sys/vm/drop_caches</code>.</p>
 
-        <h2>Why does top and free say all my ram is used if it isn't?</h2>
+        <h2>Why do top and free say that so little ram is free if it is?</h2>
         <p>This is just a difference in terminology. Both you and Linux agree that memory taken by applications is "used", while memory that isn't used for anything is "free".</p>
         <p>But how do you count memory that is currently used for something, but can still be made available to applications?</p>
-        <p>You might count that memory as "free" and/or "available". Linux instead counts it as "used", but also "available":</p>
+        <p>You might count that memory as "free" and/or "available". Linux instead counts it as "available":</p>
         <table>
           <thead>
             <tr>
