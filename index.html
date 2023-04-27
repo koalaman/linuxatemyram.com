@@ -41,13 +41,13 @@
         <p>Like all modern operating systems, Linux is borrowing unused memory for disk caching. This makes it look like you are low on "free" memory, but you are not! Everything is fine!</p>
 
         <h2>Why is it doing this?</h2>
-        <p>Disk caching makes the system much faster and more responsive! There are no downsides, except for confusing users who are new to computing, and unfamiliar with the concept of a filesystem cache. It does not take memory away from applications in any way, ever!</p>
+        <p>Disk caching makes the system much faster and more responsive! There are no downsides, except for confusing users who are new to computing, and unfamiliar with the concept of a filesystem cache. It doesn't generally take memory away from applications.</p>
 
         <h2>What if I want to run more applications?</h2>
         <p>If your applications want more memory, the kernel will just take back a chunk that the disk cache borrowed. Disk cache can always be given back to applications immediately! You are not low on ram!</p>
 
         <h2>Do I need more swap?</h2>
-        <p>No, disk caching only borrows the ram that applications don't currently want. It will not use swap. If applications want more memory, they just take it back from the disk cache. They will not start swapping.</p>
+        <p>Probably not; disk caching primarily borrows the ram that applications don't currently want. If applications want more memory, the kernel will take it back from the disk cache. Linux <em>can</em> push application memory into swap if that memory is accessed less often than the filesystem cache, but this will typically improve performance, not hurt it.</p>
 
         <h2>How do I stop Linux from doing this?</h2>
         <p>You can't disable disk caching. The only reason anyone ever wants to disable disk caching is because they think it takes memory away from their applications, which it doesn't! Disk cache makes applications load faster and run smoother, but it NEVER EVER takes memory away from them! Therefore, there's absolutely no reason to disable it!</p>
