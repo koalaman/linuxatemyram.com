@@ -56,10 +56,9 @@ $ <b>free -m</b>
 </pre>
       <p><i>(note that your <code>free</code> output could be different, and have an 'available' column instead of a '-/+' row)</i></p>
       <pre>
-             total       used       free     shared    buffers     cached
-Mem:          1504       1490         14          0         24        809
--/+ buffers/cache:        656        848
-Swap:            0          0          0
+              total        used        free      shared  buff/cache   available
+Mem:           1504         636          13           0         855      792
+Swap:             0           0           0
 
 $ <b>gcc munch.c -o munch</b>
 
@@ -73,10 +72,9 @@ Allocated 879 MB
 Killed
 
 $ <b>free -m</b>
-             total       used       free     shared    buffers     cached
-Mem:          1504        650        854          0          1         67
--/+ buffers/cache:        581        923
-Swap:            0          0          0
+              total        used        free      shared  buff/cache   available
+Mem:           1504         581         922           0           1      922
+Swap:             0           0           0
 </pre>
 
       <p>Even though it said 14MB "free", that didn't stop the application from grabbing 879MB. Afterwards, the cache is pretty empty<sup><a href="#footnote2">2</a></sup>, but it will gradually fill up again as files are read and written. Give it a try. </p>
@@ -86,10 +84,9 @@ Swap:            0          0          0
 
       <pre>
 $ <b>free -m</b>
-             total       used       free     shared    buffers     cached
-Mem:          1504       1490         14          0         10        874
--/+ buffers/cache:        605        899
-Swap:         2047          6       2041
+              total        used        free      shared  buff/cache   available
+Mem:           1504         636          13           0         855      792
+Swap:          2047           6        2041
 
 $ <b>./munch 400</b>
 Allocated 1 MB
@@ -99,10 +96,9 @@ Allocated 399 MB
 Allocated 400 MB
 
 $ <b>free -m</b>
-             total       used       free     shared    buffers     cached
-Mem:          1504       1090        414          0          5        485
--/+ buffers/cache:        598        906
-Swap:         2047          6       2041
+              total        used        free      shared  buff/cache   available
+Mem:           1504         636         413           0         455      792
+Swap:          2047           6        2041
 </pre>
 
       <p><code>munch</code> ate 400MB of ram, which was taken from the disk cache without resorting to swap. Likewise, we can fill the disk cache again and it will not start eating swap either. If you run <code>watch free -m</code> in one terminal, and <code>find . -type f -exec cat {} + > /dev/null</code> in another, you can see that "cached" will rise while "free" falls. After a while, it tapers off but swap is never touched<sup><a href="#footnote1">1</a></sup>.</p>
@@ -112,19 +108,17 @@ Swap:         2047          6       2041
 
       <pre>
 $ <b>free -m</b>
-             total       used       free     shared    buffers     cached
-Mem:          1504       1471         33          0         36        801
--/+ buffers/cache:        633        871
-Swap:         2047          6       2041
+              total        used        free      shared  buff/cache   available
+Mem:           1504         636          13           0         855      792
+Swap:          2047           6        2041
 
 $ <b>echo 3 | sudo tee /proc/sys/vm/drop_caches </b>
 3
 
 $ <b>free -m</b>
-             total       used       free     shared    buffers     cached
-Mem:          1504        763        741          0          0        134
--/+ buffers/cache:        629        875
-Swap:         2047          6       2041
+              total        used        free      shared  buff/cache   available
+Mem:           1504         636         734           0         134      792
+Swap:          2047           6        2041
 </pre>
       <p>Notice how "buffers" and "cached" went down, free mem went up, and free+buffers/cache stayed the same.</p>
 
@@ -204,10 +198,9 @@ $ <b>echo 3 | sudo tee /proc/sys/vm/drop_caches</b>
 3
 
 $ <b>free -m</b>
-             total       used       free     shared    buffers     cached
-Mem:          1504        546        958          0          0         85
--/+ buffers/cache:        461       1043
-Swap:         2047          6       2041
+              total        used        free      shared  buff/cache   available
+Mem:           1504         465         954           0          85      960
+Swap:          2047           6        2041
 
 $ <b>dd if=/dev/zero of=bigfile bs=1M count=200</b>
 200+0 records in
@@ -218,10 +211,9 @@ $ <b>ls -lh bigfile</b>
 -rw-r--r-- 1 vidar vidar 200M 2009-04-25 12:30 bigfile
 
 $ <b>free -m</b>
-             total       used       free     shared    buffers     cached
-Mem:          1504        753        750          0          0        285
--/+ buffers/cache:        468       1036
-Swap:         2047          6       2041
+              total        used        free      shared  buff/cache   available
+Mem:           1504         465         754           0          285      960
+Swap:          2047           6        2041
 </pre>
 
       <p>Since the file was just written, it will go in the disk cache. The 200MB file caused a 200MB bump in "cached". Let's read it, clear the cache, and read it again to see how fast it is:</p>

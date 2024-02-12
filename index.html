@@ -38,25 +38,25 @@
       </center>
 
         <h2>What's going on?</h2>
-        <p>Linux is borrowing unused memory for disk caching. This makes it look like you are low on memory, but you are not! Everything is fine!</p>
+        <p>Like all modern operating systems, Linux is borrowing unused memory for disk caching. This makes it look like you are low on "free" memory, but you are not! Everything is fine!</p>
 
         <h2>Why is it doing this?</h2>
-        <p>Disk caching makes the system much faster and more responsive! There are no downsides, except for confusing newbies. It does not take memory away from applications in any way, ever!</p>
+        <p>Disk caching makes the system much faster and more responsive! There are no downsides, except for confusing users who are new to computing, and unfamiliar with the concept of a filesystem cache. It doesn't generally take memory away from applications.</p>
 
         <h2>What if I want to run more applications?</h2>
-        <p>If your applications want more memory, they just take back a chunk that the disk cache borrowed. Disk cache can always be given back to applications immediately! You are not low on ram!</p>
+        <p>If your applications want more memory, the kernel will just take back a chunk that the disk cache borrowed. Disk cache can always be given back to applications immediately! You are not low on ram!</p>
 
         <h2>Do I need more swap?</h2>
-        <p>No, disk caching only borrows the ram that applications don't currently want. It will not use swap. If applications want more memory, they just take it back from the disk cache. They will not start swapping.</p>
+        <p>Probably not; disk caching primarily borrows the ram that applications don't currently want. If applications want more memory, the kernel will take it back from the disk cache. Linux <em>can</em> push application memory into swap if that memory is accessed less often than the filesystem cache, but this will typically improve performance, not hurt it.</p>
 
         <h2>How do I stop Linux from doing this?</h2>
-        <p>You can't disable disk caching. The only reason anyone ever wants to disable disk caching is because they think it takes memory away from their applications, which it doesn't! Disk cache makes applications load faster and run smoother, but it NEVER EVER takes memory away from them! Therefore, there's absolutely no reason to disable it!</p>
-        <p>If, however, you find yourself needing to clear some RAM quickly to workaround another issue, like a VM misbehaving, you can force linux to nondestructively <a href="https://linux-mm.org/Drop_Caches">drop caches</a> using <code>echo 3 | sudo tee /proc/sys/vm/drop_caches</code>.</p>
+        <p>You can't completely disable disk caching, (but you can tune Linux's "swapiness"). The only reason anyone ever wants to disable disk caching is because they think it takes memory away from their applications, which it doesn't! Disk cache makes applications load faster and run smoother, but it NEVER EVER takes memory away from them! Therefore, there's absolutely no reason to disable it!</p>
+        <p>If, however, you find yourself needing to clear some RAM quickly for some reason, like benchmarking the cold-start of an uncached application, you can force linux to nondestructively <a href="https://linux-mm.org/Drop_Caches">drop caches</a> using <code>echo 3 | sudo tee /proc/sys/vm/drop_caches</code>.</p>
 
-        <h2>Why does top and free say all my ram is used if it isn't?</h2>
+        <h2>Why do top and free say that so little ram is free if it is?</h2>
         <p>This is just a difference in terminology. Both you and Linux agree that memory taken by applications is "used", while memory that isn't used for anything is "free".</p>
         <p>But how do you count memory that is currently used for something, but can still be made available to applications?</p>
-        <p>You might count that memory as "free" and/or "available". Linux instead counts it as "used", but also "available":</p>
+        <p>You might count that memory as "free" and/or "available". Linux instead counts it as "available":</p>
         <table>
           <thead>
             <tr>
@@ -74,7 +74,7 @@
             <tr>
               <td bgcolor="#FFFF80">used, but can be made available</td>
               <td bgcolor="#80FF80">Free (or Available)</td>
-              <td bgcolor="#FF8080">Used (and Available)</td>
+              <td bgcolor="#80FF80">Available</td>
             </tr>
             <tr>
               <td bgcolor="#80FF80">not used for anything</td>
@@ -90,18 +90,17 @@
         <pre>
   $ free -m
                 total        used        free      shared  buff/cache   available
-  Mem:           1504        1491          13           0         855      <span style="border: 1px solid"><strong>792</strong></span>
+  Mem:           1504         636          13           0         855      <span style="border: 1px solid"><strong>792</strong></span>
   Swap:          2047           6        2041
 </pre>
-        <p><small>(On installations from before 2016, look at "free" column in the "-/+ buffers/cache" row instead.)</small></p>
-        <p>This is your answer in MiB. If you just naively look at "used" and "free", you'll think your ram is 99% full when it's really just 47%!</p>
+        <p><small>(On installations from before 2014, look at "free" column in the "-/+ buffers/cache" row instead.)</small></p>
+        <p>This is your answer in MiB. If you just naively look at "free", you'll think your ram is 99% full when it's really just 42%!</p>
         <p>For a more detailed and technical description of what Linux counts as "available", see <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773">the commit that added the field</a>.</p>
 
         <h2>When should I start to worry?</h2>
         <p>A <strong>healthy Linux system</strong> with more than enough memory will, after running for a while, show the following expected and harmless behavior:</p>
         <ul>
           <li><code>free</code> memory is close to <code>0</code> </li>
-          <li><code>used</code> memory is close to <code>total</code> </li>
           <li><code>available</code> memory (or "free + buffers/cache") has enough room (let's say, 20%+ of total)</li>
           <li><code>swap used</code> does not change</li>
         </ul>
